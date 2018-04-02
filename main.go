@@ -1,25 +1,33 @@
 /**
-    * @project SEOCrawler
-    * @date 02.04.2018 19:29
-    * @author Nikita Zaytsev (exluap) <nickzaytsew@gmail.com>
-    * @twitter https://twitter.com/exluap
-    * @keybase https://keybase.io/exluap
-*/
+ * @project SEOCrawler
+ * @date 02.04.2018 19:29
+ * @author Nikita Zaytsev (exluap) <nickzaytsew@gmail.com>
+ * @twitter https://twitter.com/exluap
+ * @keybase https://keybase.io/exluap
+ */
 
 package main
 
 import (
-	"github.com/exluap/SEOCrawler/utils"
-	"fmt"
-	"os"
 	"bufio"
-	"strings"
+	"fmt"
+	"github.com/blang/semver"
+	"github.com/exluap/SEOCrawler/utils"
+	"github.com/getsentry/raven-go"
 	"github.com/rhysd/go-github-selfupdate/selfupdate"
 	"log"
-	"github.com/blang/semver"
+	"os"
+	"runtime"
+	"strings"
 )
 
-const version = "1.0.0"
+const version = "1.0.1"
+
+var DSN = ""
+
+func init() {
+	raven.SetDSN(DSN)
+}
 
 func main() {
 
@@ -42,7 +50,8 @@ func confirmAndSelfUpdate() {
 		return
 	}
 
-	fmt.Print("Do you want to update to", latest.Version, "? (y/n): ")
+	fmt.Print("Detected new version: ", latest.Version)
+	fmt.Print("Do you want to update to ", latest.Version, "? (y/n): ")
 	input, err := bufio.NewReader(os.Stdin).ReadString('\n')
 	if err != nil || (input != "y\n" && input != "n\n") {
 		log.Println("Invalid input")
@@ -54,6 +63,7 @@ func confirmAndSelfUpdate() {
 
 	if err := selfupdate.UpdateTo(latest.AssetURL, os.Args[0]); err != nil {
 		log.Println("Error occurred while updating binary:", err)
+		raven.CaptureErrorAndWait(err, nil)
 		return
 	}
 	log.Println("Successfully updated to version", latest.Version)
@@ -63,5 +73,11 @@ func crawl() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Write URL (http://example.com/): ")
 	url, _ := reader.ReadString('\n')
-	utils.StartHere(strings.TrimSuffix(url,"\n"))
+	if runtime.GOOS == "windows" {
+		url = strings.Replace(url, "\r\n", "", -1)
+	} else {
+		url = strings.Replace(url, "\n", "", -1)
+	}
+
+	utils.StartHere(url)
 }
