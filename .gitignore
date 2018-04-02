@@ -66,3 +66,25 @@ fabric.properties
 
 Будет удалено .idea/inspectionProfiles/
 Будет удалено .idea/workspace.xml
+Будет удалено SEOCrawler_linux_386
+Будет удалено SEOCrawler_linux_amd64
+Будет удалено SEOCrawler_linux_arm
+Будет удалено SEOCrawler_linux_arm64
+Будет удалено SEOCrawler_linux_mips
+Будет удалено SEOCrawler_linux_mips64
+Будет удалено SEOCrawler_linux_mips64le
+Будет удалено SEOCrawler_linux_mipsle
+Будет удалено SEOCrawler_linux_ppc64
+Будет удалено SEOCrawler_linux_ppc64le
+Будет удалено SEOCrawler_linux_s390x
+/SEOCrawler_linux_ppc64le
+/SEOCrawler_linux_mips64
+/SEOCrawler_linux_386
+/SEOCrawler_linux_amd64
+/SEOCrawler_linux_arm64
+/SEOCrawler_linux_mips
+/SEOCrawler_linux_arm
+/SEOCrawler_linux_mips64le
+/SEOCrawler_linux_ppc64
+/SEOCrawler_linux_mipsle
+/SEOCrawler_linux_s390x
