@@ -53,11 +53,11 @@ func confirmAndSelfUpdate() {
 	fmt.Print("Detected new version: ", latest.Version)
 	fmt.Print("Do you want to update to ", latest.Version, "? (y/n): ")
 	input, err := bufio.NewReader(os.Stdin).ReadString('\n')
-	if err != nil || (input != "y\n" && input != "n\n") {
+	if err != nil || (input != "y\n" && input != "n\n") || (input != "y\r" && input != "y\r") {
 		log.Println("Invalid input")
 		return
 	}
-	if input == "n\n" {
+	if input == "n\n" || input == "n\r" {
 		return
 	}
 
